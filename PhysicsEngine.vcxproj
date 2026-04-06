@@ -301,10 +301,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="body.h" />
     <ClInclude Include="include\resource_dir.h" />
+    <ClInclude Include="random.h" />
+    <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="body.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />
