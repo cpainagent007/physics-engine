@@ -1,6 +1,8 @@
 #pragma once
 #include "raylib.h"
 
+#include <algorithm>
+
 class Random
 {
 public:
@@ -11,11 +13,12 @@ public:
 
 	inline static float GetRandomFloat(float max)
 	{
-		return GetRandomValue(0, (float)max) / max;
+		return GetRandomFloat() * max;
 	}
 
 	inline static float GetRandomFloat(float min, float max)
 	{
+		if (min > max) std::swap(min, max);
 		return GetRandomValue((float)min, (float)max) / max;
 	}
 

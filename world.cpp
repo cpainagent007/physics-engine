@@ -2,8 +2,7 @@
 
 void World::Step(float dt)
 {
-	for (Body& body : bodies) body.acceleration = Vector2{ 0, 0 };
-	for (Body& body : bodies) body.AddForce(gravity * body.mass * 100.0f);
+	for (Body& body : bodies) body.acceleration = gravity * body.gravityScale * 100.0f;
 
 	if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
 	{
@@ -11,27 +10,21 @@ void World::Step(float dt)
 		mouseRepel = !IsKeyDown(KEY_SPACE);
 		mouseActive = true;
 
-		for (Body& body : bodies)
-		{
-			Vector2 direction;
-			if (mouseRepel) direction = body.position - mousePosition;
-			else direction = mousePosition - body.position;
-
-			if (Vector2Length(direction) <= 100.0f)
-			{
-				Vector2 force = Vector2Normalize(direction) * 50000.0f;
-				body.AddForce(force);
-			}
-		}
+		AddEffector(new PointEffector(mousePosition, 100.0f, 500.0f, mouseRepel));
 	}
 	else
 	{
 		mouseActive = false;
 	}
 
+	for (auto& effector : effectors)
+	{
+		effector->Apply(bodies);
+	}
+
 	for (Body& body : bodies)
 	{
-		SemiImplicitEuler(body, dt);
+		Integrator::SemiImplicitEuler(body, dt);
 		body.Step(dt);
 	}
 }
@@ -43,6 +36,11 @@ void World::Draw() const
 		body.Draw();
 	}
 
+	for (const auto& effector : effectors)
+	{
+		effector->Draw();
+	}
+
 	if (mouseActive)
 	{
 		DrawCircleLinesV(mousePosition, 100, WHITE);
@@ -52,7 +50,7 @@ void World::Draw() const
 void World::AddBody(Body& body)
 {
 	body.position = GetMousePosition();
-	float angle = Random::GetRandomFloat() * PI;
+	float angle = Random::GetRandomFloat() * (2 * PI);
 	Vector2 direction;
 	direction.x = cosf(angle);
 	direction.y = sinf(angle);
@@ -62,17 +60,13 @@ void World::AddBody(Body& body)
 	body.restitution = 0.5f + (Random::GetRandomFloat() * 0.5f);
 	body.mass = body.size * 0.1f;
 	body.color = Random::GetRandomColor();
+	body.gravityScale = 1.0f;
+	body.damping = 0.5f;
+
 	bodies.push_back(body);
 }
 
-void World::ExplicitEuler(Body& body, float dt)
+void World::AddEffector(Effector* effector)
 {
-	body.position += body.velocity * dt;
-	body.velocity += body.acceleration * dt;
-}
-
-void World::SemiImplicitEuler(Body& body, float dt)
-{
-	body.velocity += body.acceleration * dt;
-	body.position += body.velocity * dt;
+	effectors.push_back(effector);
 }

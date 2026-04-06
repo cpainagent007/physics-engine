@@ -6,8 +6,9 @@
 #include "../world.h"
 
 #include <vector>
+#include <string>
 
-World world;
+
 
 int main ()
 {
@@ -18,6 +19,15 @@ int main ()
 	SearchAndSetResourceDir("resources");
 
 	Texture wabbit = LoadTexture("wabbit_alpha.png");
+
+	float targetFPS = 60.0f;
+
+	SetTargetFPS(targetFPS);
+
+	World world;
+
+	float timeAccum = 0.0f;
+	float fixedTimeStep = 1.0f / targetFPS;
 
 	while (!WindowShouldClose())
 	{
@@ -30,16 +40,28 @@ int main ()
 		}
 
 		// Update
-		world.Step(dt);
+		timeAccum += dt;
+		while (timeAccum > fixedTimeStep)
+		{
+			world.Step(fixedTimeStep);
+			timeAccum -= fixedTimeStep;
+		}
 
-		// Draw
+		// Begin Draw
 		BeginDrawing();
 
-		world.Draw();
-
-		// End Draw
+		// Clear Background
 		ClearBackground(BLACK);
 
+		// Draw World
+		world.Draw();
+
+		// Draw FPS
+		std::string fpsText = "FPS:";
+		fpsText += std::to_string(GetFPS());
+		DrawText(fpsText.c_str(), 100, 100, 20, WHITE);
+
+		// End Draw
 		EndDrawing();
 	}
 

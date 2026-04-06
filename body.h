@@ -13,7 +13,9 @@ public:
 	Vector2 velocity;
 	Vector2 acceleration;
 	Color color;
-	float mass;
-	float size;
-	float restitution;
+	float mass = 1.0f;
+	float size = 1.0f;
+	float restitution = 1.0f;
+	float gravityScale = 1.0f;
+	float damping = 0.0f;
 };

@@ -302,12 +302,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="body.h" />
+    <ClInclude Include="effector.h" />
     <ClInclude Include="include\resource_dir.h" />
+    <ClInclude Include="integrator.h" />
+    <ClInclude Include="pointEffector.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="body.cpp" />
+    <ClCompile Include="pointEffector.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
