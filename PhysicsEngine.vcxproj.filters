@@ -18,25 +18,25 @@
     <ClInclude Include="include\resource_dir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="body.h">
+    <ClInclude Include="src\body.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="world.h">
+    <ClInclude Include="src\effector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="random.h">
+    <ClInclude Include="src\gravitationEffector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="integrator.h">
+    <ClInclude Include="src\integrator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="effector.h">
+    <ClInclude Include="src\pointEffector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="pointEffector.h">
+    <ClInclude Include="src\random.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="gravitationEffector.h">
+    <ClInclude Include="src\world.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,16 +44,16 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="body.cpp">
+    <ClCompile Include="src\body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="world.cpp">
+    <ClCompile Include="src\gravitationEffector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pointEffector.cpp">
+    <ClCompile Include="src\pointEffector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gravitationEffector.cpp">
+    <ClCompile Include="src\world.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

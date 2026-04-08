@@ -2,9 +2,9 @@
 #include "resource_dir.h"
 #include "raymath.h"
 
-#include "../body.h"
-#include "../world.h"
-#include "../gravitationEffector.h"
+#include "body.h"
+#include "world.h"
+#include "gravitationEffector.h"
 
 #include <vector>
 #include <string>

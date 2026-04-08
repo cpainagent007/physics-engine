@@ -301,21 +301,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="body.h" />
-    <ClInclude Include="effector.h" />
-    <ClInclude Include="gravitationEffector.h" />
     <ClInclude Include="include\resource_dir.h" />
-    <ClInclude Include="integrator.h" />
-    <ClInclude Include="pointEffector.h" />
-    <ClInclude Include="random.h" />
-    <ClInclude Include="world.h" />
+    <ClInclude Include="src\body.h" />
+    <ClInclude Include="src\effector.h" />
+    <ClInclude Include="src\gravitationEffector.h" />
+    <ClInclude Include="src\integrator.h" />
+    <ClInclude Include="src\pointEffector.h" />
+    <ClInclude Include="src\random.h" />
+    <ClInclude Include="src\world.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="body.cpp" />
-    <ClCompile Include="gravitationEffector.cpp" />
-    <ClCompile Include="pointEffector.cpp" />
+    <ClCompile Include="src\body.cpp" />
+    <ClCompile Include="src\gravitationEffector.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="world.cpp" />
+    <ClCompile Include="src\pointEffector.cpp" />
+    <ClCompile Include="src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />
