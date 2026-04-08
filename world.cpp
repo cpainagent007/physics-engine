@@ -2,7 +2,8 @@
 
 void World::Step(float dt)
 {
-	for (Body& body : bodies) body.acceleration = gravity * body.gravityScale * 100.0f;
+	for (Body& body : bodies) body.acceleration = Vector2{ 0, 0 };
+	for (Body& body : bodies) body.AddForce(gravity * body.gravityScale * 100.0f, Body::ForceMode::Acceleration);
 
 	if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
 	{
@@ -24,7 +25,7 @@ void World::Step(float dt)
 
 	for (Body& body : bodies)
 	{
-		Integrator::SemiImplicitEuler(body, dt);
+		if (body.bodyType == Body::BodyType::Dynamic) Integrator::SemiImplicitEuler(body, dt);
 		body.Step(dt);
 	}
 }
@@ -49,18 +50,20 @@ void World::Draw() const
 
 void World::AddBody(Body& body)
 {
+	body.bodyType = (IsKeyDown(KEY_LEFT_SHIFT)) ? Body::BodyType::Static : Body::BodyType::Dynamic;
+
 	body.position = GetMousePosition();
 	float angle = Random::GetRandomFloat() * (2 * PI);
 	Vector2 direction;
 	direction.x = cosf(angle);
 	direction.y = sinf(angle);
-	body.velocity = direction * (50.0f + (Random::GetRandomFloat() * 100));
-	body.acceleration = Vector2{ 0, 0 };
+	body.AddForce(direction * (50.0f + (Random::GetRandomFloat() * 100)), Body::ForceMode::VelocityChange);
 	body.size = 5.0f + (Random::GetRandomFloat() * 20.0f);
 	body.restitution = 0.5f + (Random::GetRandomFloat() * 0.5f);
-	body.mass = body.size * 0.1f;
+	body.mass = body.size;
+	body.inverseMass = (body.bodyType == Body::BodyType::Static) ? 0 : 1.0f / body.mass;
 	body.color = Random::GetRandomColor();
-	body.gravityScale = 1.0f;
+	body.gravityScale = 0.0f;
 	body.damping = 0.5f;
 
 	bodies.push_back(body);

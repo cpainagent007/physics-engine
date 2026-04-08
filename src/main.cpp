@@ -4,6 +4,7 @@
 
 #include "../body.h"
 #include "../world.h"
+#include "../gravitationEffector.h"
 
 #include <vector>
 #include <string>
@@ -28,6 +29,8 @@ int main ()
 
 	float timeAccum = 0.0f;
 	float fixedTimeStep = 1.0f / targetFPS;
+
+	world.AddEffector(new GravitationEffector(10000.0f));
 
 	while (!WindowShouldClose())
 	{

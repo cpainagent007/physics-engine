@@ -36,6 +36,9 @@
     <ClInclude Include="pointEffector.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="gravitationEffector.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pointEffector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gravitationEffector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

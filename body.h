@@ -5,15 +5,33 @@
 class Body
 {
 public:
-	void AddForce(const Vector2 force);
+	enum class BodyType
+	{
+		Static,
+		Kinematic,
+		Dynamic
+	};
+
+	enum class ForceMode
+	{
+		Force,
+		Impulse,
+		Acceleration,
+		VelocityChange
+	};
+
+public:
+	void AddForce(const Vector2 force, ForceMode forceMode = ForceMode::Force);
 	void Step(const float dt);
 	void Draw() const;
 
-	Vector2 position;
-	Vector2 velocity;
-	Vector2 acceleration;
+	BodyType bodyType = BodyType::Dynamic;
+	Vector2 position{ 0, 0 };
+	Vector2 velocity{ 0, 0 };
+	Vector2 acceleration{ 0, 0 };
 	Color color;
 	float mass = 1.0f;
+	float inverseMass = 1.0f;
 	float size = 1.0f;
 	float restitution = 1.0f;
 	float gravityScale = 1.0f;

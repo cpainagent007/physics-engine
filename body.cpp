@@ -1,8 +1,26 @@
 #include "body.h"
 
-void Body::AddForce(const Vector2 force)
+void Body::AddForce(const Vector2 force, ForceMode forceMode)
 {
-	acceleration += force / mass;
+	if (bodyType != BodyType::Dynamic) return;
+
+	switch (forceMode)
+	{
+	case Body::ForceMode::Force:
+		acceleration += force * inverseMass;
+		break;
+	case Body::ForceMode::Impulse:
+		velocity += force * inverseMass;
+		break;
+	case Body::ForceMode::Acceleration:
+		acceleration += force;
+		break;
+	case Body::ForceMode::VelocityChange:
+		velocity += force;
+		break;
+	default:
+		break;
+	}
 }
 
 void Body::Step(const float dt)
@@ -32,4 +50,5 @@ void Body::Step(const float dt)
 void Body::Draw() const
 {
 	DrawCircleV(position, size, color);
+	DrawCircleLinesV(position, size, WHITE);
 }
