@@ -6,6 +6,7 @@
 #include "integrator.h"
 #include "effector.h"
 #include "pointEffector.h"
+#include "collision.h"
 
 #include <vector>
 
@@ -21,9 +22,11 @@ public:
 	void Draw() const;
 	void AddBody(Body& body);
 	void AddEffector(Effector* effector);
+	void UpdateCollision();
 
 	std::vector<Body> bodies;
 	std::vector<Effector*> effectors;
+	std::vector<Contact> contacts;
 
 	Vector2 gravity;
 	bool mouseActive;

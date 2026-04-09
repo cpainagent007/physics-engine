@@ -25,7 +25,7 @@ void Body::AddForce(const Vector2 force, ForceMode forceMode)
 
 void Body::Step(const float dt)
 {
-	if (position.x + size > GetScreenWidth())
+	/*if (position.x + size > GetScreenWidth())
 	{
 		position.x = GetScreenWidth() - size;
 		velocity.x *= -restitution;
@@ -44,7 +44,7 @@ void Body::Step(const float dt)
 	{
 		position.y = size;
 		velocity.y *= -restitution;
-	}
+	}*/
 }
 
 void Body::Draw() const

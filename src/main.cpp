@@ -30,7 +30,7 @@ int main ()
 	float timeAccum = 0.0f;
 	float fixedTimeStep = 1.0f / targetFPS;
 
-	world.AddEffector(new GravitationEffector(10000.0f));
+	//world.AddEffector(new GravitationEffector(10000.0f));
 
 	while (!WindowShouldClose())
 	{
