@@ -26,8 +26,8 @@ void World::Step(float dt)
 	for (Body& body : bodies)
 	{
 		if (body.bodyType == Body::BodyType::Dynamic) Integrator::SemiImplicitEuler(body, dt);
-		UpdateCollision();
 	}
+	UpdateCollision();
 }
 
 void World::Draw() const
@@ -63,8 +63,8 @@ void World::AddBody(Body& body)
 	body.mass = body.size;
 	body.inverseMass = (body.bodyType == Body::BodyType::Static) ? 0 : 1.0f / body.mass;
 	body.color = Random::GetRandomColor();
-	body.gravityScale = 0.0f;
-	body.damping = 1.0f;
+	body.gravityScale = 1.0f;
+	body.damping = 0.5f;
 
 	bodies.push_back(body);
 }
@@ -79,6 +79,7 @@ void World::UpdateCollision()
 	contacts.clear();
 	CreateContacts(bodies, contacts);
 	SeparateContacts(contacts);
+	ResolveContacts(contacts);
 
 	// collision
 	for (auto& body : bodies)

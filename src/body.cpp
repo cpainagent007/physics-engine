@@ -25,6 +25,7 @@ void Body::AddForce(const Vector2 force, ForceMode forceMode)
 
 void Body::Step(const float dt)
 {
+	// Moved to world.cpp
 	/*if (position.x + size > GetScreenWidth())
 	{
 		position.x = GetScreenWidth() - size;
