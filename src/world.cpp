@@ -18,16 +18,11 @@ void World::Step(float dt)
 		mouseActive = false;
 	}
 
-	for (auto& effector : effectors)
-	{
-		effector->Apply(bodies);
-	}
+	for (auto& effector : effectors) effector->Apply(bodies);
 
-	for (Body& body : bodies)
-	{
-		if (body.bodyType == Body::BodyType::Dynamic) Integrator::SemiImplicitEuler(body, dt);
-	}
-	UpdateCollision();
+	for (Body& body : bodies) if (body.bodyType == Body::BodyType::Dynamic) Integrator::SemiImplicitEuler(body, dt);
+
+	for (int i = 0; i < 4; i++) UpdateCollision();
 }
 
 void World::Draw() const

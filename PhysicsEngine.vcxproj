@@ -312,6 +312,7 @@
     <ClInclude Include="src\world.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\effector.cpp" />
     <ClCompile Include="src\body.cpp" />
     <ClCompile Include="src\collision.cpp" />
     <ClCompile Include="src\gravitationEffector.cpp" />

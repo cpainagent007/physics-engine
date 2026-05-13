@@ -13,7 +13,8 @@
 class World
 {
 public:
-	World() : gravity{ 0, 9.81f }, mouseActive(false), mouseRepel(true), mousePosition{ 0, 0 }
+	World() :
+		gravity{ 0, 9.81f }, mouseActive(false), mouseRepel(true), mousePosition{ 0, 0 }
 	{
 		//bodies.reserve(10000);
 	}

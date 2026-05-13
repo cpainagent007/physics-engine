@@ -29,13 +29,18 @@ int main ()
 
 	float timeAccum = 0.0f;
 	float fixedTimeStep = 1.0f / targetFPS;
+	bool simulate = true;
 
 	//world.AddEffector(new GravitationEffector(10000.0f));
 
 	while (!WindowShouldClose())
 	{
-		float dt = GetFrameTime();
+		float dt = fminf(GetFrameTime(), 0.1f);
 
+		if (IsKeyPressed(KEY_S))
+		{
+			simulate = !simulate;
+		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || (IsKeyDown(KEY_SPACE) && IsMouseButtonDown(MOUSE_BUTTON_LEFT)))
 		{
 			Body body;
@@ -43,11 +48,13 @@ int main ()
 		}
 
 		// Update
-		timeAccum += dt;
-		while (timeAccum > fixedTimeStep)
-		{
-			world.Step(fixedTimeStep);
-			timeAccum -= fixedTimeStep;
+		if (simulate) {
+			timeAccum += dt;
+			while (timeAccum > fixedTimeStep)
+			{
+				world.Step(fixedTimeStep);
+				timeAccum -= fixedTimeStep;
+			}
 		}
 
 		// Begin Draw
@@ -63,6 +70,12 @@ int main ()
 		std::string fpsText = "FPS:";
 		fpsText += std::to_string(GetFPS());
 		DrawText(fpsText.c_str(), 100, 100, 20, WHITE);
+
+		// Draw Is Simulating
+		std::string simText = "Simulating:";
+		std::string tfText = (simulate) ? "True" : "False";
+		simText += tfText;
+		DrawText(simText.c_str(), 100, 120, 20, WHITE);
 
 		// End Draw
 		EndDrawing();
