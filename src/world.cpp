@@ -27,15 +27,9 @@ void World::Step(float dt)
 
 void World::Draw() const
 {
-	for (const Body& body : bodies)
-	{
-		body.Draw();
-	}
+	for (const auto& effector : effectors) effector->Draw();
 
-	for (const auto& effector : effectors)
-	{
-		effector->Draw();
-	}
+	for (const Body& body : bodies) body.Draw();
 
 	if (mouseActive)
 	{
@@ -58,7 +52,9 @@ void World::AddBody(Body& body)
 	body.mass = body.size;
 	body.inverseMass = (body.bodyType == Body::BodyType::Static) ? 0 : 1.0f / body.mass;
 	body.color = Random::GetRandomColor();
-	body.gravityScale = 1.0f;
+
+	// GRAVITY SCALE
+	body.gravityScale = 0.0f;
 	body.damping = 0.5f;
 
 	bodies.push_back(body);

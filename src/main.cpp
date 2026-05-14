@@ -31,7 +31,8 @@ int main ()
 	float fixedTimeStep = 1.0f / targetFPS;
 	bool simulate = true;
 
-	//world.AddEffector(new GravitationEffector(10000.0f));
+	// GRAVITY EFFECTOR
+	world.AddEffector(new GravitationEffector(Vector2{ 400, 300 }, 150.0f, 10000.0f));
 
 	while (!WindowShouldClose())
 	{

@@ -19,28 +19,34 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\body.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\effector.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gravitationEffector.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\integrator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\pointEffector.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\random.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\world.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\collision.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gravitationEffector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\integrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pointEffector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\areaEffector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dragEffector.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,7 +68,13 @@
     <ClCompile Include="src\collision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\effector.cpp">
+    <ClCompile Include="src\dragEffector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\areaEffector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

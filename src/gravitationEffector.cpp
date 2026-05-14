@@ -2,26 +2,35 @@
 
 #include <iostream>
 
-void GravitationEffector::Apply(std::vector<Body>& bodies)
+void GravitationEffector::Apply(std::vector<Body>& inBodies)
 {
-	for (int i = 0; i < bodies.size(); ++i)
-	{
-		for (int j = i + 1; j < bodies.size(); ++j)
-		{
-			Body& bodyA = bodies[i];
-			Body& bodyB = bodies[j];
+	std::vector<Body*> outBodies;
+	CollectBodiesInside(inBodies, outBodies);
 
-			Vector2 direction = bodyA.position - bodyB.position;
+	for (int i = 0; i < outBodies.size(); ++i)
+	{
+		for (int j = i + 1; j < outBodies.size(); ++j)
+		{
+			Body* bodyA = outBodies[i];
+			Body* bodyB = outBodies[j];
+
+			Vector2 direction = bodyA->position - bodyB->position;
 			float distance = Vector2Length(direction);
 
 			distance = fmaxf(distance, 1.0f);
 
-			float forceMagnitude = strength * ((bodyA.mass * bodyB.mass) / (distance * distance));
+			float forceMagnitude = strength * ((bodyA->mass * bodyB->mass) / (distance * distance));
 
 			Vector2 forceDirection = Vector2Normalize(direction) * forceMagnitude;
 
-			bodyA.AddForce(forceDirection * -1);
-			bodyB.AddForce(forceDirection);
+			bodyA->AddForce(forceDirection * -1);
+			bodyB->AddForce(forceDirection);
 		}
 	}
+}
+
+void GravitationEffector::Draw()
+{
+	Effector::Draw();
+	DrawCircleV(position, size, Fade(YELLOW, 0.2f));
 }

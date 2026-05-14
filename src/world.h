@@ -6,6 +6,8 @@
 #include "integrator.h"
 #include "effector.h"
 #include "pointEffector.h"
+#include "areaEffector.h"
+#include "dragEffector.h"
 #include "collision.h"
 
 #include <vector>

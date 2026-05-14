@@ -9,7 +9,9 @@ public:
         Effector{ position, size }, strength{ strength }
     {}
 
-    void Apply(std::vector<Body>& bodies) override;
+    void Apply(std::vector<Body>& inBodies) override;
+
+	void Draw() override;
 
 private:
     float strength;

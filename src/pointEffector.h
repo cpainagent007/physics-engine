@@ -9,7 +9,7 @@ public:
 		Effector{ position, size }, forceMagnitude{ forceMagnitude }, repel{ repel }
 	{}
 
-	void Apply(std::vector<Body>& bodies) override;
+	void Apply(std::vector<Body>& inBodies) override;
 	void Draw() override;
 
 private:
