@@ -6,6 +6,7 @@
 #include "integrator.h"
 #include "effector.h"
 #include "pointEffector.h"
+#include "gravitationEffector.h"
 #include "areaEffector.h"
 #include "dragEffector.h"
 #include "collision.h"

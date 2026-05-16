@@ -9,13 +9,11 @@ void World::Step(float dt)
 	{
 		mousePosition = GetMousePosition();
 		mouseRepel = !IsKeyDown(KEY_SPACE);
-		mouseActive = true;
 
-		AddEffector(new PointEffector(mousePosition, 100.0f, 500.0f, mouseRepel));
-	}
-	else
-	{
-		mouseActive = false;
+		if (IsKeyDown(KEY_P)) AddEffector(new PointEffector(mousePosition, 100.0f, 500.0f, mouseRepel));
+		if (IsKeyDown(KEY_A)) AddEffector(new AreaEffector(mousePosition, 100.0f, 0.0f, 10000.0f));
+		if (IsKeyDown(KEY_D)) AddEffector(new DragEffector(mousePosition, 100.0f, 20.0f));
+		if (IsKeyDown(KEY_G)) AddEffector(new GravitationEffector(mousePosition, 100.0f, 10000.0f));
 	}
 
 	for (auto& effector : effectors) effector->Apply(bodies);
@@ -30,11 +28,6 @@ void World::Draw() const
 	for (const auto& effector : effectors) effector->Draw();
 
 	for (const Body& body : bodies) body.Draw();
-
-	if (mouseActive)
-	{
-		DrawCircleLinesV(mousePosition, 100, WHITE);
-	}
 }
 
 void World::AddBody(Body& body)
