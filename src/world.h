@@ -11,28 +11,32 @@
 #include "dragEffector.h"
 #include "collision.h"
 
+#include "raygui.h"
+#include "gui_physics.h"
+
 #include <vector>
 
 class World
 {
 public:
 	World() :
-		gravity{ 0, 9.81f }, mouseActive(false), mouseRepel(true), mousePosition{ 0, 0 }
+		mouseActive(false), mouseRepel(true), mousePosition{ 0, 0 }
 	{
 		//bodies.reserve(10000);
 	}
 
 	void Step(float dt);
 	void Draw() const;
-	void AddBody(Body& body);
+	void AddBody(Body& body, GuiPhysicsState state);
 	void AddEffector(Effector* effector);
 	void UpdateCollision();
+	static void SetGravity(Vector2 newGravity) { gravity = newGravity; }
 
 	std::vector<Body> bodies;
 	std::vector<Effector*> effectors;
 	std::vector<Contact> contacts;
 
-	Vector2 gravity;
+	static Vector2 gravity;
 	bool mouseActive;
 	bool mouseRepel;
 	Vector2 mousePosition;

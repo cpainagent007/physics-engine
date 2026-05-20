@@ -7,9 +7,9 @@ class Body
 public:
 	enum class BodyType
 	{
-		Static,
+		Dynamic,
 		Kinematic,
-		Dynamic
+		Static
 	};
 
 	enum class ForceMode

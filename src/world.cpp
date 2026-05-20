@@ -1,5 +1,7 @@
 #include "world.h"
 
+Vector2 World::gravity = { 0, 9.81f };
+
 void World::Step(float dt)
 {
 	for (Body& body : bodies) body.acceleration = Vector2{ 0, 0 };
@@ -30,9 +32,9 @@ void World::Draw() const
 	for (const Body& body : bodies) body.Draw();
 }
 
-void World::AddBody(Body& body)
+void World::AddBody(Body& body, GuiPhysicsState state)
 {
-	body.bodyType = (IsKeyDown(KEY_LEFT_SHIFT)) ? Body::BodyType::Static : Body::BodyType::Dynamic;
+	body.bodyType = (Body::BodyType)state.BodyTypeActive;
 
 	body.position = GetMousePosition();
 	float angle = Random::GetRandomFloat() * (2 * PI);
@@ -40,15 +42,15 @@ void World::AddBody(Body& body)
 	direction.x = cosf(angle);
 	direction.y = sinf(angle);
 	body.AddForce(direction * (50.0f + (Random::GetRandomFloat() * 100)), Body::ForceMode::VelocityChange);
-	body.size = 5.0f + (Random::GetRandomFloat() * 20.0f);
-	body.restitution = 0.5f + (Random::GetRandomFloat() * 0.5f);
-	body.mass = body.size;
+	body.size = state.BodySizeValue;
+	body.restitution = state.BodyRestitutionValue;
+	body.mass = body.size * state.BodyMassValue;
 	body.inverseMass = (body.bodyType == Body::BodyType::Static) ? 0 : 1.0f / body.mass;
 	body.color = Random::GetRandomColor();
 
 	// GRAVITY SCALE
-	body.gravityScale = 0.0f;
-	body.damping = 0.5f;
+	body.gravityScale = state.BodyGravityValue;
+	body.damping = state.BodyDampingValue;
 
 	bodies.push_back(body);
 }

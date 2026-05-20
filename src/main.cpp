@@ -45,14 +45,14 @@ int main ()
 	{
 		float dt = fminf(GetFrameTime(), 0.1f);
 
-		if (IsKeyPressed(KEY_S))
-		{
-			simulate = !simulate;
-		}
+		if (IsKeyPressed(KEY_S)) state.SimulateActive = !state.SimulateActive;
+
+		World::SetGravity(Vector2{ 0.0f, state.GravityValue });
+
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || (IsKeyDown(KEY_SPACE) && IsMouseButtonDown(MOUSE_BUTTON_LEFT)))
 		{
 			Body body;
-			world.AddBody(body);
+			world.AddBody(body, state);
 		}
 
 		// Update
@@ -73,8 +73,6 @@ int main ()
 
 		// Draw World
 		world.Draw();
-
-		GuiPhysics(&state);
 
 		/*
 
@@ -118,6 +116,8 @@ int main ()
 		DrawText(dragEffectorText.c_str(), 20, 580, 20, PURPLE);
 
 		*/
+
+		GuiPhysics(&state);
 
 		// End Draw
 		EndDrawing();
