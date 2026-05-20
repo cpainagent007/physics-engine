@@ -9,13 +9,23 @@
 #include <vector>
 #include <string>
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+#define GUI_PHYSICS_IMPLEMENTATION
+#pragma warning ( push )
+#pragma warning ( disable : 4576)
+#include "gui_physics.h"
+#pragma warning ( pop )
 
+GuiPhysicsState state;
 
 int main ()
 {
 	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
 
-	InitWindow(800, 600, "Hello Raylib");
+	InitWindow(1300, 800, "Hello Raylib");
+
+	state = InitGuiPhysics();
 
 	SearchAndSetResourceDir("resources");
 
@@ -46,7 +56,7 @@ int main ()
 		}
 
 		// Update
-		if (simulate) {
+		if (state.SimulateActive) {
 			timeAccum += dt;
 			while (timeAccum > fixedTimeStep)
 			{
@@ -63,6 +73,10 @@ int main ()
 
 		// Draw World
 		world.Draw();
+
+		GuiPhysics(&state);
+
+		/*
 
 		// Draw FPS
 		std::string fpsText = "FPS:";
@@ -102,6 +116,8 @@ int main ()
 
 		std::string dragEffectorText = "Right Click + D = Drag Effector";
 		DrawText(dragEffectorText.c_str(), 20, 580, 20, PURPLE);
+
+		*/
 
 		// End Draw
 		EndDrawing();

@@ -48,6 +48,12 @@
     <ClInclude Include="src\dragEffector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\raygui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui_physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

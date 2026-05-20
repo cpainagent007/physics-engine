@@ -308,9 +308,11 @@
     <ClInclude Include="src\dragEffector.h" />
     <ClInclude Include="src\effector.h" />
     <ClInclude Include="src\gravitationEffector.h" />
+    <ClInclude Include="src\gui_physics.h" />
     <ClInclude Include="src\integrator.h" />
     <ClInclude Include="src\pointEffector.h" />
     <ClInclude Include="src\random.h" />
+    <ClInclude Include="src\raygui.h" />
     <ClInclude Include="src\world.h" />
   </ItemGroup>
   <ItemGroup>
