@@ -28,7 +28,7 @@ public:
 	void Step(float dt);
 	void Draw() const;
 	void AddBody(Body& body, GuiPhysicsState state);
-	void AddEffector(Effector* effector);
+	void AddEffector(GuiPhysicsState state);
 	void UpdateCollision();
 	static void SetGravity(Vector2 newGravity) { gravity = newGravity; }
 

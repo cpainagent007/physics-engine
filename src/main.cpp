@@ -31,29 +31,40 @@ int main ()
 
 	Texture wabbit = LoadTexture("wabbit_alpha.png");
 
-	float targetFPS = 60.0f;
+	float targetFPS = state.FPSValue;
 
 	SetTargetFPS(targetFPS);
 
 	World world;
 
 	float timeAccum = 0.0f;
-	float fixedTimeStep = 1.0f / targetFPS;
 	bool simulate = true;
 
 	while (!WindowShouldClose())
 	{
 		float dt = fminf(GetFrameTime(), 0.1f);
+		float fixedTimeStep = 1.0f / targetFPS;
 
 		if (IsKeyPressed(KEY_S)) state.SimulateActive = !state.SimulateActive;
+		if (IsKeyPressed(KEY_TAB)) state.PhysicsPanelActive = !state.PhysicsPanelActive;
 
 		World::SetGravity(Vector2{ 0.0f, state.GravityValue });
 
-		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || (IsKeyDown(KEY_SPACE) && IsMouseButtonDown(MOUSE_BUTTON_LEFT)))
-		{
-			Body body;
-			world.AddBody(body, state);
+		Rectangle guiRect = Rectangle{ state.anchor02.x, state.anchor02.y, 304, 664 };
+		bool mouseOverGUI = state.PhysicsPanelActive && CheckCollisionPointRec(GetMousePosition(), guiRect);
+
+		if (!mouseOverGUI) {
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || (IsKeyDown(KEY_SPACE) && IsMouseButtonDown(MOUSE_BUTTON_LEFT)))
+			{
+				Body body;
+				world.AddBody(body, state);
+			}
+			if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+			{
+				world.AddEffector(state);
+			}
 		}
+		
 
 		// Update
 		if (state.SimulateActive) {

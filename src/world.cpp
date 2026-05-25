@@ -7,17 +7,6 @@ void World::Step(float dt)
 	for (Body& body : bodies) body.acceleration = Vector2{ 0, 0 };
 	for (Body& body : bodies) body.AddForce(gravity * body.gravityScale * 100.0f, Body::ForceMode::Acceleration);
 
-	if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
-	{
-		mousePosition = GetMousePosition();
-		mouseRepel = !IsKeyDown(KEY_SPACE);
-
-		if (IsKeyDown(KEY_P)) AddEffector(new PointEffector(mousePosition, 100.0f, 500.0f, mouseRepel));
-		if (IsKeyDown(KEY_A)) AddEffector(new AreaEffector(mousePosition, 100.0f, 0.0f, 10000.0f));
-		if (IsKeyDown(KEY_D)) AddEffector(new DragEffector(mousePosition, 100.0f, 20.0f));
-		if (IsKeyDown(KEY_G)) AddEffector(new GravitationEffector(mousePosition, 100.0f, 10000.0f));
-	}
-
 	for (auto& effector : effectors) effector->Apply(bodies);
 
 	for (Body& body : bodies) if (body.bodyType == Body::BodyType::Dynamic) Integrator::SemiImplicitEuler(body, dt);
@@ -55,9 +44,29 @@ void World::AddBody(Body& body, GuiPhysicsState state)
 	bodies.push_back(body);
 }
 
-void World::AddEffector(Effector* effector)
+void World::AddEffector(GuiPhysicsState state)
 {
-	effectors.push_back(effector);
+	Vector2 position = GetMousePosition();
+	mouseRepel = !IsKeyDown(KEY_SPACE);
+
+	Effector* effector = nullptr;
+	switch ((EffectorType)state.EffectorTypeActive)
+	{
+	case EffectorType::Point:
+		effector = new PointEffector(position, 100.0f, 500.0f, mouseRepel);
+		break;
+	case EffectorType::Area:
+		effector = new AreaEffector(position, 100.0f, 0.0f, 10000.0f);
+		break;
+	case EffectorType::Drag:
+		effector = new DragEffector(position, 100.0f, 20.0f);
+		break;
+	case EffectorType::Gravitation:
+		effector = new GravitationEffector(position, 100.0f, 10000.0f);
+		break;
+	}
+
+	if (effector) effectors.push_back(effector);
 }
 
 void World::UpdateCollision()
