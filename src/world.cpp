@@ -4,7 +4,6 @@ Vector2 World::gravity = { 0, 9.81f };
 
 void World::Step(float dt)
 {
-	for (Body& body : bodies) body.acceleration = Vector2{ 0, 0 };
 	for (Body& body : bodies) body.AddForce(gravity * body.gravityScale * 100.0f, Body::ForceMode::Acceleration);
 
 	for (auto& effector : effectors) effector->Apply(bodies);
@@ -12,6 +11,8 @@ void World::Step(float dt)
 	for (Body& body : bodies) if (body.bodyType == Body::BodyType::Dynamic) Integrator::SemiImplicitEuler(body, dt);
 
 	for (int i = 0; i < 4; i++) UpdateCollision();
+
+	for (Body& body : bodies) body.acceleration = Vector2{ 0, 0 };
 }
 
 void World::Draw() const
@@ -100,4 +101,17 @@ void World::UpdateCollision()
 			body.velocity.y *= -body.restitution;
 		}
 	}
+}
+
+Body* World::GetBodyIntersect(const Vector2& position)
+{
+	for (auto& body : bodies)
+	{
+		if (CheckCollisionPointCircle(position, body.position, body.size))
+		{
+			return &body;
+		}
+	}
+
+	return nullptr;
 }

@@ -54,6 +54,9 @@
     <ClInclude Include="src\gui_physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\spring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\effector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\spring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

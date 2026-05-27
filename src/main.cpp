@@ -26,10 +26,14 @@ int main ()
 	InitWindow(1300, 800, "Hello Raylib");
 
 	state = InitGuiPhysics();
+	GuiLoadStyle("raygui/styles/cyber/style_cyber.rgs");
 
 	SearchAndSetResourceDir("resources");
 
 	Texture wabbit = LoadTexture("wabbit_alpha.png");
+
+	Body* selectedBody = nullptr;
+	Body* connectedBody = nullptr;
 
 	float targetFPS = state.FPSValue;
 
@@ -63,6 +67,18 @@ int main ()
 			{
 				world.AddEffector(state);
 			}
+			if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE))
+			{
+				selectedBody = world.GetBodyIntersect(GetMousePosition());
+			}
+			if (selectedBody && IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
+			{
+				Vector2 position = GetMousePosition();
+				Vector2 force = Spring::GetSpringForce(position, selectedBody->position, 1.0f, 3.0f);
+				selectedBody->AddForce(force * 1000);
+
+				DrawLineV(position, selectedBody->position, RED);
+			}
 		}
 		
 
@@ -85,12 +101,19 @@ int main ()
 		// Draw World
 		world.Draw();
 
-		/*
+		
 
 		// Draw FPS
 		std::string fpsText = "FPS:";
 		fpsText += std::to_string(GetFPS());
-		DrawText(fpsText.c_str(), 20, 20, 20, WHITE);
+		DrawText(fpsText.c_str(), GetScreenWidth() - 120, 20, 20, WHITE);
+
+		if (selectedBody)
+		{
+			DrawCircleLinesV(selectedBody->position, selectedBody->size * 1.1f, RED);
+		}
+
+		/*
 
 		// Draw Is Simulating
 		std::string simText = "Simulating:";

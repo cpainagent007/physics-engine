@@ -9,6 +9,7 @@
 #include "gravitationEffector.h"
 #include "areaEffector.h"
 #include "dragEffector.h"
+#include "spring.h"
 #include "collision.h"
 
 #include "raygui.h"
@@ -31,6 +32,7 @@ public:
 	void AddEffector(GuiPhysicsState state);
 	void UpdateCollision();
 	static void SetGravity(Vector2 newGravity) { gravity = newGravity; }
+	Body* GetBodyIntersect(const Vector2& position);
 
 	std::vector<Body> bodies;
 	std::vector<Effector*> effectors;
