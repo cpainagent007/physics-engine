@@ -57,6 +57,9 @@
     <ClInclude Include="src\spring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\worldCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -87,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\spring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worldCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

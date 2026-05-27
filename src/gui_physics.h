@@ -123,8 +123,8 @@ GuiPhysicsState InitGuiPhysics(void)
     state.anchor02 = Vector2{ 24, 40 };
     
     state.PhysicsPanelActive = true;
-    state.BodyMassValue = 1.0f;
-    state.BodySizeValue = 5.0f;
+    state.BodyMassValue = 0.5f;
+    state.BodySizeValue = 0.5f;
     state.BodyGravityValue = 1.0f;
     state.BodyRestitutionValue = 0.5f;
     state.BodyDampingValue = 0.1f;
@@ -140,9 +140,9 @@ GuiPhysicsState InitGuiPhysics(void)
     state.EffectorForceValue = 0.0f;
     state.EffectorAngleValue = 0.0f;
     state.SimulateActive = true;
-    state.GravityValue = 9.81f;
+    state.GravityValue = -9.81f;
     state.FPSValue = 60.0f;
-    state.BodyVelocityValue = 40.0f;
+    state.BodyVelocityValue = 5.0f;
     state.SpringMultiplierValue = 0.0f;
     state.WindowBox023Active = true;
 
@@ -183,26 +183,26 @@ void GuiPhysics(GuiPhysicsState *state)
     if (state->PhysicsPanelActive)
     {
         state->PhysicsPanelActive = !GuiWindowBox(state->layoutRecs[0], "PHYSICS CONTROLS");
-        GuiSliderBar(state->layoutRecs[1], "MASS", GUI_TEXT(&state->BodyMassValue), &state->BodyMassValue, 1, 20);
-        GuiSliderBar(state->layoutRecs[2], "SIZE", GUI_TEXT(&state->BodySizeValue), &state->BodySizeValue, 0, 100);
-        GuiSliderBar(state->layoutRecs[3], "GRAVITY", GUI_TEXT(&state->BodyGravityValue), &state->BodyGravityValue, -100, 100);
-        GuiSliderBar(state->layoutRecs[4], "BOUNCE", GUI_TEXT(&state->BodyRestitutionValue), &state->BodyRestitutionValue, 0, 100);
-        GuiSliderBar(state->layoutRecs[5], "DAMPING", GUI_TEXT(&state->BodyDampingValue), &state->BodyDampingValue, 0, 100);
+        GuiSliderBar(state->layoutRecs[1], "MASS", GUI_TEXT(&state->BodyMassValue), &state->BodyMassValue, 0, 1);
+        GuiSliderBar(state->layoutRecs[2], "SIZE", GUI_TEXT(&state->BodySizeValue), &state->BodySizeValue, 0, 1);
+        GuiSliderBar(state->layoutRecs[3], "GRAVITY", GUI_TEXT(&state->BodyGravityValue), &state->BodyGravityValue, -10, 10);
+        GuiSliderBar(state->layoutRecs[4], "BOUNCE", GUI_TEXT(&state->BodyRestitutionValue), &state->BodyRestitutionValue, 0, 10);
+        GuiSliderBar(state->layoutRecs[5], "DAMPING", GUI_TEXT(&state->BodyDampingValue), &state->BodyDampingValue, 0, 10);
         GuiGroupBox(state->layoutRecs[7], "SPRING");
-        GuiSliderBar(state->layoutRecs[8], "STIFFNESS", GUI_TEXT(&state->SpringStiffnessValue), &state->SpringStiffnessValue, 0, 100);
-        GuiSliderBar(state->layoutRecs[9], "DAMPING", GUI_TEXT(&state->SpringDampingValue), &state->SpringDampingValue, 0, 100);
+        GuiSliderBar(state->layoutRecs[8], "STIFFNESS", GUI_TEXT(&state->SpringStiffnessValue), &state->SpringStiffnessValue, 0, 10);
+        GuiSliderBar(state->layoutRecs[9], "DAMPING", GUI_TEXT(&state->SpringDampingValue), &state->SpringDampingValue, 0, 10);
         GuiCheckBox(state->layoutRecs[10], "AUTO LENGTH", &state->SpringAutoLengthChecked);
-        GuiSliderBar(state->layoutRecs[11], "LENGTH", GUI_TEXT(&state->SpringLengthValue), &state->SpringLengthValue, 0, 100);
+        GuiSliderBar(state->layoutRecs[11], "LENGTH", GUI_TEXT(&state->SpringLengthValue), &state->SpringLengthValue, 0, 10);
         GuiGroupBox(state->layoutRecs[12], "EFFECTOR");
-        GuiSliderBar(state->layoutRecs[14], "SIZE", GUI_TEXT(&state->EffectorSizeValue), &state->EffectorSizeValue, 0, 100);
-        GuiSlider(state->layoutRecs[15], "FORCE", GUI_TEXT(&state->EffectorForceValue), &state->EffectorForceValue, 0, 100);
-        GuiSliderBar(state->layoutRecs[16], "ANGLE", GUI_TEXT(&state->EffectorAngleValue), &state->EffectorAngleValue, 0, 100);
+        GuiSliderBar(state->layoutRecs[14], "SIZE", GUI_TEXT(&state->EffectorSizeValue), &state->EffectorSizeValue, 0, 5);
+        GuiSlider(state->layoutRecs[15], "FORCE", GUI_TEXT(&state->EffectorForceValue), &state->EffectorForceValue, 0, 10);
+        GuiSliderBar(state->layoutRecs[16], "ANGLE", GUI_TEXT(&state->EffectorAngleValue), &state->EffectorAngleValue, 0, 10);
         GuiToggle(state->layoutRecs[17], "SIMULATE", &state->SimulateActive);
-        GuiSlider(state->layoutRecs[18], "GRAVITY", GUI_TEXT(&state->GravityValue), &state->GravityValue, 0, 100);
-        GuiSliderBar(state->layoutRecs[19], "FPS", GUI_TEXT(&state->FPSValue), &state->FPSValue, 0, 100);
-        GuiSliderBar(state->layoutRecs[20], "VELOCITY", GUI_TEXT(&state->BodyVelocityValue), &state->BodyVelocityValue, 0, 100);
+        GuiSlider(state->layoutRecs[18], "GRAVITY", GUI_TEXT(&state->GravityValue), &state->GravityValue, -10, 10);
+        GuiSliderBar(state->layoutRecs[19], "FPS", GUI_TEXT(&state->FPSValue), &state->FPSValue, 10, 120);
+        GuiSliderBar(state->layoutRecs[20], "VELOCITY", GUI_TEXT(&state->BodyVelocityValue), &state->BodyVelocityValue, 0, 10);
         GuiGroupBox(state->layoutRecs[21], "BODY");
-        GuiSliderBar(state->layoutRecs[22], "SPRING X", GUI_TEXT(&state->SpringMultiplierValue), &state->SpringMultiplierValue, 0, 100);
+        GuiSliderBar(state->layoutRecs[22], "SPRING X", GUI_TEXT(&state->SpringMultiplierValue), &state->SpringMultiplierValue, 0, 10);
         if (GuiDropdownBox(state->layoutRecs[6], "DYNAMIC;KINEMATIC;STATIC", &state->BodyTypeActive, state->BodyTypeEditMode)) state->BodyTypeEditMode = !state->BodyTypeEditMode;
         if (GuiDropdownBox(state->layoutRecs[13], "GRAVITATION;POINT;AREA;DRAG", &state->EffectorTypeActive, state->EffectorTypeEditMode)) state->EffectorTypeEditMode = !state->EffectorTypeEditMode;
     }

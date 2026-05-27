@@ -315,6 +315,7 @@
     <ClInclude Include="src\raygui.h" />
     <ClInclude Include="src\spring.h" />
     <ClInclude Include="src\world.h" />
+    <ClInclude Include="src\worldCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\areaEffector.cpp" />
@@ -327,6 +328,7 @@
     <ClCompile Include="src\pointEffector.cpp" />
     <ClCompile Include="src\spring.cpp" />
     <ClCompile Include="src\world.cpp" />
+    <ClCompile Include="src\worldCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\icon.ico" />

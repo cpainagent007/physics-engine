@@ -1,10 +1,10 @@
 #include "world.h"
 
-Vector2 World::gravity = { 0, 9.81f };
+Vector2 World::gravity = { 0, -9.81f };
 
 void World::Step(float dt)
 {
-	for (Body& body : bodies) body.AddForce(gravity * body.gravityScale * 100.0f, Body::ForceMode::Acceleration);
+	for (Body& body : bodies) body.AddForce(gravity * body.gravityScale, Body::ForceMode::Acceleration);
 
 	for (auto& effector : effectors) effector->Apply(bodies);
 
@@ -22,16 +22,16 @@ void World::Draw() const
 	for (const Body& body : bodies) body.Draw();
 }
 
-void World::AddBody(Body& body, GuiPhysicsState state)
+void World::AddBody(Body& body, GuiPhysicsState state, WorldCamera& camera)
 {
 	body.bodyType = (Body::BodyType)state.BodyTypeActive;
 
-	body.position = GetMousePosition();
+	body.position = camera.ScreenToWorld(GetMousePosition());
 	float angle = Random::GetRandomFloat() * (2 * PI);
 	Vector2 direction;
 	direction.x = cosf(angle);
 	direction.y = sinf(angle);
-	body.AddForce(direction * (50.0f + (Random::GetRandomFloat() * 100)), Body::ForceMode::VelocityChange);
+	body.AddForce(direction * (Random::GetRandomFloat()), Body::ForceMode::VelocityChange);
 	body.size = state.BodySizeValue;
 	body.restitution = state.BodyRestitutionValue;
 	body.mass = body.size * state.BodyMassValue;
@@ -45,25 +45,25 @@ void World::AddBody(Body& body, GuiPhysicsState state)
 	bodies.push_back(body);
 }
 
-void World::AddEffector(GuiPhysicsState state)
+void World::AddEffector(GuiPhysicsState state, WorldCamera& camera)
 {
-	Vector2 position = GetMousePosition();
+	Vector2 position = camera.ScreenToWorld(GetMousePosition());
 	mouseRepel = !IsKeyDown(KEY_SPACE);
 
 	Effector* effector = nullptr;
 	switch ((EffectorType)state.EffectorTypeActive)
 	{
 	case EffectorType::Point:
-		effector = new PointEffector(position, 100.0f, 500.0f, mouseRepel);
+		effector = new PointEffector(position, state.EffectorSizeValue, state.EffectorForceValue, mouseRepel);
 		break;
 	case EffectorType::Area:
-		effector = new AreaEffector(position, 100.0f, 0.0f, 10000.0f);
+		effector = new AreaEffector(position, state.EffectorSizeValue, state.EffectorAngleValue, state.EffectorForceValue);
 		break;
 	case EffectorType::Drag:
-		effector = new DragEffector(position, 100.0f, 20.0f);
+		effector = new DragEffector(position, state.EffectorSizeValue, state.EffectorForceValue);
 		break;
 	case EffectorType::Gravitation:
-		effector = new GravitationEffector(position, 100.0f, 10000.0f);
+		effector = new GravitationEffector(position, state.EffectorSizeValue, state.EffectorForceValue);
 		break;
 	}
 
@@ -80,24 +80,24 @@ void World::UpdateCollision()
 	// collision
 	for (auto& body : bodies)
 	{
-		if (body.position.x + body.size > GetScreenWidth())
+		if (body.position.x + body.size > boundsMax.x)
 		{
-			body.position.x = GetScreenWidth() - body.size;
+			body.position.x = boundsMax.x - body.size;
 			body.velocity.x *= -body.restitution;
 		}
-		if (body.position.x - body.size < 0)
+		if (body.position.x - body.size < boundsMin.x)
 		{
-			body.position.x = body.size;
+			body.position.x = boundsMin.x + body.size;
 			body.velocity.x *= -body.restitution;
 		}
-		if (body.position.y + body.size > GetScreenHeight())
+		if (body.position.y + body.size > boundsMax.y)
 		{
-			body.position.y = GetScreenHeight() - body.size;
+			body.position.y = boundsMax.y - body.size;
 			body.velocity.y *= -body.restitution;
 		}
-		if (body.position.y - body.size < 0)
+		if (body.position.y - body.size < boundsMin.y)
 		{
-			body.position.y = body.size;
+			body.position.y = boundsMin.y + body.size;
 			body.velocity.y *= -body.restitution;
 		}
 	}

@@ -5,6 +5,7 @@
 #include "body.h"
 #include "world.h"
 #include "gravitationEffector.h"
+#include "worldCamera.h"
 
 #include <vector>
 #include <string>
@@ -26,7 +27,7 @@ int main ()
 	InitWindow(1300, 800, "Hello Raylib");
 
 	state = InitGuiPhysics();
-	GuiLoadStyle("raygui/styles/cyber/style_cyber.rgs");
+	GuiLoadStyle("raygui/styles/lavanda/style_lavanda.rgs");
 
 	SearchAndSetResourceDir("resources");
 
@@ -40,6 +41,8 @@ int main ()
 	SetTargetFPS(targetFPS);
 
 	World world;
+	WorldCamera worldCamera(Vector2{ GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f }, 5);
+	world.SetBounds(worldCamera.ScreenToWorld({ 0, (float)GetScreenHeight() }), worldCamera.ScreenToWorld({ (float)GetScreenWidth(), 0 }));
 
 	float timeAccum = 0.0f;
 	bool simulate = true;
@@ -61,21 +64,21 @@ int main ()
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || (IsKeyDown(KEY_SPACE) && IsMouseButtonDown(MOUSE_BUTTON_LEFT)))
 			{
 				Body body;
-				world.AddBody(body, state);
+				world.AddBody(body, state, worldCamera);
 			}
 			if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
 			{
-				world.AddEffector(state);
+				world.AddEffector(state, worldCamera);
 			}
 			if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE))
 			{
-				selectedBody = world.GetBodyIntersect(GetMousePosition());
+				selectedBody = world.GetBodyIntersect(worldCamera.ScreenToWorld(GetMousePosition()));
 			}
 			if (selectedBody && IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
 			{
-				Vector2 position = GetMousePosition();
+				Vector2 position = worldCamera.ScreenToWorld(GetMousePosition());
 				Vector2 force = Spring::GetSpringForce(position, selectedBody->position, 1.0f, 3.0f);
-				selectedBody->AddForce(force * 1000);
+				selectedBody->AddForce(force);
 
 				DrawLineV(position, selectedBody->position, RED);
 			}
@@ -99,9 +102,9 @@ int main ()
 		ClearBackground(BLACK);
 
 		// Draw World
-		world.Draw();
-
-		
+		worldCamera.Begin(); // set world camera
+		world.Draw(); // draw using world camera transform
+		worldCamera.End(); // remove world camera
 
 		// Draw FPS
 		std::string fpsText = "FPS:";
@@ -110,7 +113,7 @@ int main ()
 
 		if (selectedBody)
 		{
-			DrawCircleLinesV(selectedBody->position, selectedBody->size * 1.1f, RED);
+			DrawCircleLinesV(worldCamera.ScreenToWorld(selectedBody->position), selectedBody->size * 1.1f, RED);
 		}
 
 		/*
