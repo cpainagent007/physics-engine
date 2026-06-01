@@ -74,17 +74,37 @@ int main ()
 			{
 				selectedBody = world.GetBodyIntersect(worldCamera.ScreenToWorld(GetMousePosition()));
 			}
-			if (selectedBody && IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
+			if (selectedBody)
 			{
-				Vector2 position = worldCamera.ScreenToWorld(GetMousePosition());
-				Vector2 force = Spring::GetSpringForce(position, selectedBody->position, 1.0f, 3.0f);
-				selectedBody->AddForce(force);
+				if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
+				{
+					if (IsKeyDown(KEY_LEFT_CONTROL))
+					{
+						Vector2 position = worldCamera.ScreenToWorld(GetMousePosition());
+						Vector2 force = Spring::GetSpringForce(position, selectedBody->position, 1.0f, 3.0f);
+						selectedBody->AddForce(force);
 
-				DrawLineV(position, selectedBody->position, RED);
+						DrawLineV(worldCamera.WorldToScreen(position), worldCamera.WorldToScreen(selectedBody->position), RED);
+					}
+					else
+					{
+						connectedBody = world.GetBodyIntersect(worldCamera.ScreenToWorld(GetMousePosition()));
+					}
+				}
+				else
+				{
+					if (selectedBody && connectedBody)
+					{
+						float distance = Vector2Distance(selectedBody->position, connectedBody->position);
+						world.AddSpring(*selectedBody, *connectedBody, distance, state.SpringStiffnessValue, state.SpringDampingValue);
+					}
+
+					selectedBody = nullptr;
+					connectedBody = nullptr;
+				}
 			}
 		}
 		
-
 		// Update
 		if (state.SimulateActive) {
 			timeAccum += dt;
@@ -104,6 +124,11 @@ int main ()
 		// Draw World
 		worldCamera.Begin(); // set world camera
 		world.Draw(); // draw using world camera transform
+
+		if (selectedBody) DrawCircleLinesV(selectedBody->position, selectedBody->size * 1.1f, RED);
+		if (connectedBody) DrawCircleLinesV(connectedBody->position, connectedBody->size * 1.1f, RED);
+		DrawCircleLinesV(worldCamera.ScreenToWorld(GetMousePosition()), state.EffectorSizeValue * 0.5f, RED);
+
 		worldCamera.End(); // remove world camera
 
 		// Draw FPS
@@ -111,48 +136,7 @@ int main ()
 		fpsText += std::to_string(GetFPS());
 		DrawText(fpsText.c_str(), GetScreenWidth() - 120, 20, 20, WHITE);
 
-		if (selectedBody)
-		{
-			DrawCircleLinesV(worldCamera.ScreenToWorld(selectedBody->position), selectedBody->size * 1.1f, RED);
-		}
-
-		/*
-
-		// Draw Is Simulating
-		std::string simText = "Simulating:";
-		std::string tfText = (simulate) ? "True" : "False";
-		simText += tfText;
-		DrawText(simText.c_str(), 20, 40, 20, WHITE);
-
-		//Draw Instructions
-		std::string spawnText = "Left Click = Spawn Body";
-		DrawText(spawnText.c_str(), 20, 420, 20, WHITE);
-
-		std::string spawnStationaryText = "Left Click + Shift = Spawn Stationary Body";
-		DrawText(spawnStationaryText.c_str(), 20, 440, 20, WHITE);
-
-		std::string spawnManyText = "Left Click + Space = Spawn Multiple Bodies";
-		DrawText(spawnManyText.c_str(), 20, 460, 20, WHITE);
-
-		std::string simulateText = "S = Toggle Simulating";
-		DrawText(simulateText.c_str(), 20, 480, 20, WHITE);
-
-		std::string pointEffectorRepelText = "Right Click + P = Point Effector Repel";
-		DrawText(pointEffectorRepelText.c_str(), 20, 500, 20, PINK);
-
-		std::string pointEffectorAttractText = "Right Click + P + Space = Point Effector Attract";
-		DrawText(pointEffectorAttractText.c_str(), 20, 520, 20, LIME);
-
-		std::string gravitationEffectorText = "Right Click + G = Gravitation Effector";
-		DrawText(gravitationEffectorText.c_str(), 20, 540, 20, YELLOW);
-
-		std::string areaEffectorText = "Right Click + A = Area Effector";
-		DrawText(areaEffectorText.c_str(), 20, 560, 20, BLUE);
-
-		std::string dragEffectorText = "Right Click + D = Drag Effector";
-		DrawText(dragEffectorText.c_str(), 20, 580, 20, PURPLE);
-
-		*/
+		
 
 		GuiPhysics(&state);
 

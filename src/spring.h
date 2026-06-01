@@ -9,8 +9,8 @@ class Spring
 {
 public:
 	Spring() = default;
-	Spring(Body* bodyA, Body* bodyB, float restLength, float stiffness = 1) :
-		bodyA{ bodyA }, bodyB{ bodyB }, restLength{ restLength }, stiffness{ stiffness }
+	Spring(Body* bodyA, Body* bodyB, float restLength, float stiffness = 1, float damping = 1) :
+		bodyA{ bodyA }, bodyB{ bodyB }, restLength{ restLength }, stiffness{ stiffness }, damping{ damping }
 	{
 
 	}
@@ -25,4 +25,5 @@ public:
 
 	float restLength;
 	float stiffness;
+	float damping;
 };

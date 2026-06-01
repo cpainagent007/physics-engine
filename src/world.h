@@ -31,6 +31,7 @@ public:
 	void Draw() const;
 	void AddBody(Body& body, GuiPhysicsState state, WorldCamera& camera);
 	void AddEffector(GuiPhysicsState state, WorldCamera& camera);
+	void AddSpring(Body& bodyA, Body& bodyB, float restLength, float stiffness, float damping);
 	void UpdateCollision();
 	static void SetGravity(Vector2 newGravity) { gravity = newGravity; }
 	Body* GetBodyIntersect(const Vector2& position);
@@ -39,6 +40,7 @@ public:
 	std::vector<Body> bodies;
 	std::vector<Effector*> effectors;
 	std::vector<Contact> contacts;
+	std::vector<Spring*> springs;
 
 	static Vector2 gravity;
 	bool mouseActive;
